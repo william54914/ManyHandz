@@ -22,7 +22,11 @@ export function useAuth() {
     staleTime: 5 * 60 * 1000, // 5 min
     queryFn: async () => {
       if (!user) return null;
-      const { data } = await supabase.from("profiles").select("id, email, full_name, display_name, avatar_url, stripe_customer_id, referral_code, referred_by, timezone").eq("id", user.id).single();
+      const { data } = await supabase
+        .from("profiles")
+        .select("id, email, full_name, avatar_url, stripe_customer_id")
+        .eq("id", user.id)
+        .single();
       return data;
     },
     enabled: !!user,

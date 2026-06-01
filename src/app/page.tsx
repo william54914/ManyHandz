@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
@@ -10,7 +11,6 @@ import {
   Check,
   Crown,
   Goal,
-  Home,
   RotateCcw,
   Sparkles,
   Star,
@@ -157,11 +157,15 @@ export default function LandingPage() {
       {/* Navigation */}
       <nav className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
-              <Home className="h-4 w-4 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold tracking-tight">ManyHandz</span>
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/logo-dark.png"
+              alt="ManyHandz"
+              width={180}
+              height={56}
+              className="h-9 w-auto"
+              priority
+            />
           </Link>
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="sm" asChild>
@@ -199,14 +203,16 @@ export default function LandingPage() {
                 Now with AI-powered verification
               </Badge>
             </motion.div>
-            <motion.h1
-              variants={fadeInUp}
-              className="text-5xl font-extrabold tracking-tight sm:text-6xl lg:text-7xl"
-            >
-              <span className="bg-gradient-to-r from-primary via-cyan-400 to-primary bg-clip-text text-transparent">
-                ManyHandz
-              </span>
-            </motion.h1>
+            <motion.div variants={fadeInUp} className="flex justify-center">
+              <Image
+                src="/logo-dark.png"
+                alt="ManyHandz"
+                width={600}
+                height={187}
+                className="h-20 w-auto sm:h-24 lg:h-32"
+                priority
+              />
+            </motion.div>
             <motion.p
               variants={fadeInUp}
               className="mt-6 text-xl text-muted-foreground sm:text-2xl"
@@ -570,11 +576,14 @@ export default function LandingPage() {
       <footer className="border-t border-border/50 bg-card/30">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
-            <div className="flex items-center gap-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary">
-                <Home className="h-3.5 w-3.5 text-primary-foreground" />
-              </div>
-              <span className="text-lg font-bold">ManyHandz</span>
+            <div className="flex items-center">
+              <Image
+                src="/logo-dark.png"
+                alt="ManyHandz"
+                width={160}
+                height={50}
+                className="h-8 w-auto"
+              />
             </div>
             <div className="flex items-center gap-6 text-sm text-muted-foreground">
               <Link
@@ -590,7 +599,7 @@ export default function LandingPage() {
                 Privacy
               </Link>
               <Link
-                href="mailto:support@manyhandz.app"
+                href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "support@manyhandz.com"}`}
                 className="transition-colors hover:text-foreground"
               >
                 Support

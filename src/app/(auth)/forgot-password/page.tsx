@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Loader2, ArrowLeft, Mail } from "lucide-react";
+import Image from "next/image";
 
 const forgotPasswordSchema = z.object({
   email: z.email("Please enter a valid email address"),
@@ -65,7 +66,17 @@ export default function ForgotPasswordPage() {
 
   if (isEmailSent) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[var(--bg-primary)] p-4">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg-primary)] p-4">
+        <div className="mb-8">
+          <Image
+            src="/logo-dark.png"
+            alt="ManyHandz"
+            width={280}
+            height={87}
+            className="h-16 w-auto"
+            priority
+          />
+        </div>
         <Card className="w-full max-w-md border-[var(--border-default)] bg-[var(--bg-secondary)]">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-[var(--accent-primary)]/10">
@@ -113,7 +124,17 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[var(--bg-primary)] p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg-primary)] p-4">
+      <div className="mb-8">
+        <Image
+          src="/logo-dark.png"
+          alt="ManyHandz"
+          width={280}
+          height={87}
+          className="h-16 w-auto"
+          priority
+        />
+      </div>
       <Card className="w-full max-w-md border-[var(--border-default)] bg-[var(--bg-secondary)]">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold text-[var(--text-primary)]">

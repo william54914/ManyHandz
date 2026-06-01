@@ -12,8 +12,9 @@ let vapidInitialized = false;
 
 function ensureVapid() {
   if (vapidInitialized) return;
+  const supportEmail = process.env.SUPPORT_EMAIL || "support@manyhandz.com";
   webpush.setVapidDetails(
-    "mailto:support@manyhandz.com",
+    `mailto:${supportEmail}`,
     env.VAPID_PUBLIC_KEY,
     env.VAPID_PRIVATE_KEY
   );

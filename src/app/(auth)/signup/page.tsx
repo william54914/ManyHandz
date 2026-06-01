@@ -22,6 +22,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import Image from "next/image";
 
 const signupSchema = z.object({
   fullName: z.string().min(2, "Full name must be at least 2 characters"),
@@ -141,20 +142,31 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[var(--bg-primary)] p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg-primary)] p-4">
+      <div className="mb-8">
+        <Image
+          src="/logo-dark.png"
+          alt="ManyHandz"
+          width={280}
+          height={87}
+          className="h-16 w-auto"
+          priority
+        />
+      </div>
       <Card className="w-full max-w-md border-[var(--border-default)] bg-[var(--bg-secondary)]">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold text-[var(--text-primary)]">
             Create your account
           </CardTitle>
           <CardDescription className="text-[var(--text-secondary)]">
-            Get started with ManyHandz for free
+            Get started for free
           </CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-4">
           {/* Google Sign Up */}
           <Button
+            type="button"
             variant="outline"
             size="lg"
             className="w-full gap-3 border-[var(--border-default)] bg-[var(--bg-tertiary)] text-[var(--text-primary)] hover:bg-[var(--bg-hover)]"

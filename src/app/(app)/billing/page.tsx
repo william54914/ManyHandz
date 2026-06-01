@@ -63,12 +63,15 @@ const FEATURES = [
 
 export default function BillingPage() {
   const router = useRouter();
-  const { subscription, isActive, isTrialing, daysRemaining, isLoading } = useSubscription();
+  const { subscription, isActive, isTrialing, isTrialExpired, daysRemaining, isLoading } = useSubscription();
   const { permissions } = useHouseholdMode();
   const householdId = useHouseholdStore((s) => s.activeHouseholdId);
   const [selectedPlan, setSelectedPlan] = useState<"monthly" | "annual">("annual");
 
-  const trialExpired = isTrialing && daysRemaining !== null && daysRemaining <= 0;
+  // use-subscription already accounts for status=trialing + trial_end past.
+  // We accept either as "expired" here so the paywall shows on day 0.
+  const trialExpired =
+    isTrialExpired || (isTrialing && daysRemaining !== null && daysRemaining <= 0);
   const showPaywall = !isActive || trialExpired;
 
   // -----------------------------------------------------------------------

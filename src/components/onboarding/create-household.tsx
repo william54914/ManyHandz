@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Home, Users, Plus, LogIn } from "lucide-react";
+import Image from "next/image";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -69,9 +70,15 @@ export function CreateHousehold({
     return (
       <div className="w-full max-w-2xl mx-auto">
         <div className="mb-8 text-center">
-          <h2 className="text-2xl font-bold text-foreground">
-            Welcome to ManyHandz
-          </h2>
+          <div className="mb-4 flex justify-center">
+            <Image
+              src="/logo-dark.png"
+              alt="ManyHandz"
+              width={240}
+              height={75}
+              className="h-14 w-auto"
+            />
+          </div>
           <p className="mt-2 text-muted-foreground">
             Get started by creating a new household or joining an existing one.
           </p>
@@ -80,6 +87,7 @@ export function CreateHousehold({
         <div className="grid gap-4 sm:grid-cols-2">
           {/* Create card */}
           <button
+            type="button"
             onClick={() => setPath("create")}
             className={cn(
               "group flex flex-col items-center gap-4 rounded-xl border-2 border-border bg-card p-8 text-center transition-all",
@@ -101,6 +109,7 @@ export function CreateHousehold({
 
           {/* Join card */}
           <button
+            type="button"
             onClick={() => setPath("join")}
             className={cn(
               "group flex flex-col items-center gap-4 rounded-xl border-2 border-border bg-card p-8 text-center transition-all",
@@ -129,6 +138,7 @@ export function CreateHousehold({
     return (
       <div className="w-full max-w-md mx-auto">
         <button
+          type="button"
           onClick={() => setPath(null)}
           className="mb-4 text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
@@ -143,6 +153,7 @@ export function CreateHousehold({
   return (
     <div className="w-full max-w-lg mx-auto">
       <button
+        type="button"
         onClick={() => setPath(null)}
         className="mb-4 text-sm text-muted-foreground hover:text-foreground transition-colors"
       >

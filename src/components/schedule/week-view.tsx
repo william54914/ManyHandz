@@ -77,6 +77,7 @@ export function WeekView({
 
           return (
             <button
+              type="button"
               key={dateKey}
               onClick={() => onDayClick(day)}
               className={cn(

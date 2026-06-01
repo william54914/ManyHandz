@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
+import { createServerClient } from "@supabase/ssr";
 
 const PUBLIC_ROUTES = [
   "/",
@@ -16,13 +17,14 @@ const PUBLIC_ROUTES = [
 const AUTH_ROUTES = ["/login", "/signup"];
 const ALWAYS_ALLOWED = ["/billing", "/api/stripe", "/api/auth/webauthn"];
 
+// Routes that require auth but NOT a household (used for first-time setup,
+// account management, and the billing paywall).
+const NO_HOUSEHOLD_REQUIRED = ["/onboarding", "/billing", "/profile"];
+
 function addSecurityHeaders(response: NextResponse): NextResponse {
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-Content-Type-Options", "nosniff");
-  response.headers.set(
-    "Referrer-Policy",
-    "strict-origin-when-cross-origin"
-  );
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   response.headers.set(
     "Permissions-Policy",
     "camera=(self), microphone=(), geolocation=()"
@@ -38,13 +40,45 @@ function addSecurityHeaders(response: NextResponse): NextResponse {
   return response;
 }
 
-export async function middleware(request: NextRequest) {
+async function userHasActiveHousehold(
+  request: NextRequest,
+  userId: string
+): Promise<boolean> {
+  // Use a lightweight Supabase client (just for this read) — re-uses the
+  // cookies on the request so RLS can run as the user.
+  const client = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll() {
+          // no-op — we don't need to set cookies for this read
+        },
+      },
+    }
+  );
+  const { data, error } = await client
+    .from("members")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("is_active", true)
+    .limit(1)
+    .maybeSingle();
+  if (error) return false;
+  return !!data;
+}
+
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Skip static files and API webhooks
+  // Skip static files and PWA assets
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/icons") ||
+    pathname.startsWith("/screenshots") ||
     pathname === "/manifest.json" ||
     pathname === "/sw.js" ||
     pathname === "/favicon.ico"
@@ -52,7 +86,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Webhook routes skip auth but need security headers
+  // Webhook routes skip auth but get security headers
   if (
     pathname === "/api/stripe/webhook" ||
     pathname === "/api/webhooks/supabase"
@@ -78,15 +112,13 @@ export async function middleware(request: NextRequest) {
     return addSecurityHeaders(NextResponse.redirect(url));
   }
 
-  // Check if route is public
   const isPublic = PUBLIC_ROUTES.some(
     (r) => pathname === r || pathname.startsWith(r + "/")
   );
-  const isAlwaysAllowed = ALWAYS_ALLOWED.some((r) =>
-    pathname.startsWith(r)
-  );
+  const isAlwaysAllowed = ALWAYS_ALLOWED.some((r) => pathname.startsWith(r));
+  const isApi = pathname.startsWith("/api/");
 
-  if (!isPublic && !isAlwaysAllowed && !pathname.startsWith("/api/")) {
+  if (!isPublic && !isAlwaysAllowed && !isApi) {
     // Protected route — require auth
     if (!user) {
       const url = request.nextUrl.clone();
@@ -94,13 +126,34 @@ export async function middleware(request: NextRequest) {
       url.searchParams.set("redirect", pathname);
       return addSecurityHeaders(NextResponse.redirect(url));
     }
+
+    // Authenticated but no household? Redirect to /onboarding unless they're
+    // already on a no-household-required route.
+    const allowsNoHousehold =
+      pathname === "/onboarding" ||
+      pathname.startsWith("/onboarding/") ||
+      NO_HOUSEHOLD_REQUIRED.some(
+        (r) => pathname === r || pathname.startsWith(r + "/")
+      );
+    if (!allowsNoHousehold) {
+      const hasHousehold = await userHasActiveHousehold(request, user.id);
+      if (!hasHousehold) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/onboarding";
+        return addSecurityHeaders(NextResponse.redirect(url));
+      }
+    }
   }
 
   // Subscription enforcement is handled at the DB level via RLS policies.
-  // No client-side header needed — the billing page and hooks query status directly.
-
   return addSecurityHeaders(response);
 }
+
+// Next 16 expects a default export when the file is named `proxy.ts`.
+// We also keep `middleware` as a named export for backwards compatibility
+// with any tooling that still scans for it.
+export default proxy;
+export const middleware = proxy;
 
 export const config = {
   matcher: [

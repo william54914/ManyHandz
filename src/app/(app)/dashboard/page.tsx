@@ -233,6 +233,7 @@ function TrialBanner({
           <Link href="/settings/billing">Upgrade</Link>
         </Button>
         <button
+          type="button"
           onClick={onDismiss}
           className="text-xs text-muted-foreground hover:text-foreground"
         >
@@ -374,6 +375,7 @@ function ActivityItem({
               currentMemberId ? reactors.includes(currentMemberId) : false;
             return (
               <button
+                type="button"
                 key={emoji}
                 onClick={() => onReact(item.id, emoji)}
                 className={cn(

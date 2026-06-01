@@ -285,6 +285,7 @@ function BundleCard({
 
           {/* Expand toggle */}
           <button
+            type="button"
             onClick={() => setExpanded(!expanded)}
             className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors w-full"
           >

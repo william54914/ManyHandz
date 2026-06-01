@@ -200,6 +200,7 @@ export default function NewBundlePage() {
             <div className="flex flex-wrap gap-2">
               {BUNDLE_ICONS.map((emoji) => (
                 <button
+                  type="button"
                   key={emoji}
                   onClick={() => setIcon(emoji)}
                   className={cn(
@@ -318,6 +319,7 @@ export default function NewBundlePage() {
           <div className="max-h-[300px] overflow-y-auto space-y-1 rounded-lg border p-2">
             {availableChores.map((chore: any) => (
               <button
+                type="button"
                 key={chore.id}
                 onClick={() => handleAddChore(chore)}
                 className="flex items-center gap-2 w-full rounded-md px-3 py-2 text-left text-sm hover:bg-muted transition-colors"

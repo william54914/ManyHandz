@@ -160,6 +160,7 @@ export function EditScheduleDialog({
                 ["daily", "weekly", "biweekly", "monthly"] as Frequency[]
               ).map((f) => (
                 <button
+                  type="button"
                   key={f}
                   onClick={() => setFrequency(f)}
                   className={cn(
@@ -180,6 +181,7 @@ export function EditScheduleDialog({
             <Label>Assignment type</Label>
             <div className="grid grid-cols-2 gap-2">
               <button
+                type="button"
                 onClick={() => setRotationType("round_robin")}
                 className={cn(
                   "flex items-center gap-2.5 rounded-lg border-2 p-3 text-left transition-all",
@@ -197,6 +199,7 @@ export function EditScheduleDialog({
                 </div>
               </button>
               <button
+                type="button"
                 onClick={() => setRotationType("fixed")}
                 className={cn(
                   "flex items-center gap-2.5 rounded-lg border-2 p-3 text-left transition-all",
@@ -230,6 +233,7 @@ export function EditScheduleDialog({
                 const orderIndex = selectedMembers.indexOf(m.id);
                 return (
                   <button
+                    type="button"
                     key={m.id}
                     onClick={() => {
                       if (rotationType === "fixed") {

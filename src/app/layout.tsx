@@ -10,15 +10,31 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+const appUrl =
+  process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(appUrl),
   title: "ManyHandz — Many hands make light work",
   description:
     "Household chore coordination and accountability. Create shared chore boards, auto-rotate tasks, track completion with photo proof, and generate fairness scores.",
   manifest: "/manifest.json",
+  icons: {
+    icon: "/logo-icon.png",
+    apple: "/icons/apple-touch-icon.png",
+  },
   openGraph: {
     title: "ManyHandz",
     description: "Household chore coordination and accountability app",
     type: "website",
+    images: [
+      {
+        url: "/logo-dark.png",
+        width: 1200,
+        height: 630,
+        alt: "ManyHandz — Many hands make light work",
+      },
+    ],
   },
 };
 

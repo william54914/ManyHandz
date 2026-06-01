@@ -21,6 +21,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { Loader2, Fingerprint } from "lucide-react";
+import Image from "next/image";
 import { startAuthentication, browserSupportsWebAuthn } from "@simplewebauthn/browser";
 
 const loginSchema = z.object({
@@ -180,20 +181,31 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[var(--bg-primary)] p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg-primary)] p-4">
+      <div className="mb-8">
+        <Image
+          src="/logo-dark.png"
+          alt="ManyHandz"
+          width={280}
+          height={87}
+          className="h-16 w-auto"
+          priority
+        />
+      </div>
       <Card className="w-full max-w-md border-[var(--border-default)] bg-[var(--bg-secondary)]">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold text-[var(--text-primary)]">
             Welcome back
           </CardTitle>
           <CardDescription className="text-[var(--text-secondary)]">
-            Sign in to your ManyHandz account
+            Sign in to your account
           </CardDescription>
         </CardHeader>
 
         <CardContent className="space-y-4">
           {/* Google Sign In */}
           <Button
+            type="button"
             variant="outline"
             size="lg"
             className="w-full gap-3 border-[var(--border-default)] bg-[var(--bg-tertiary)] text-[var(--text-primary)] hover:bg-[var(--bg-hover)]"
@@ -237,6 +249,7 @@ export default function LoginPage() {
                   className="border-[var(--border-default)] bg-[var(--bg-tertiary)] text-[var(--text-primary)] placeholder:text-[var(--text-muted)]"
                 />
                 <Button
+                  type="button"
                   variant="outline"
                   size="lg"
                   className="w-full gap-3 border-[var(--border-default)] bg-[var(--bg-tertiary)] text-[var(--text-primary)] hover:bg-[var(--bg-hover)]"

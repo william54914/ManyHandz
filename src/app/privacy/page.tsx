@@ -171,10 +171,10 @@ export default function PrivacyPage() {
               If you have any questions, concerns, or requests regarding this
               Privacy Policy or our data practices, please contact us at{" "}
               <a
-                href="mailto:privacy@manyhandz.app"
+                href={`mailto:${process.env.NEXT_PUBLIC_PRIVACY_EMAIL || "privacy@manyhandz.com"}`}
                 className="text-primary underline underline-offset-4 hover:text-primary/80"
               >
-                privacy@manyhandz.app
+                {process.env.NEXT_PUBLIC_PRIVACY_EMAIL || "privacy@manyhandz.com"}
               </a>
               . We will respond to your inquiry within 30 days. For
               GDPR-related requests, you may also contact our Data Protection

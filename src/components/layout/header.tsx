@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Bell, ChevronDown, Check, Inbox } from "lucide-react";
 import type { Member, Household } from "@/lib/supabase/types";
 import { cn } from "@/lib/utils/cn";
@@ -62,7 +63,12 @@ export function Header({
 }: HeaderProps) {
   const householdName = activeHousehold?.name ?? "ManyHandz";
   const hasMultipleHouseholds = households.length > 1;
-  const today = formatDate(new Date());
+  // Date is rendered client-only to avoid SSR/CSR hydration mismatch
+  // when server and client are in different timezones or cross a day boundary.
+  const [today, setToday] = useState<string>("");
+  useEffect(() => {
+    setToday(formatDate(new Date()));
+  }, []);
 
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-card/80 backdrop-blur-xl">
@@ -72,7 +78,7 @@ export function Header({
           {hasMultipleHouseholds ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-2 min-w-0 rounded-lg px-2 py-1 -ml-2 transition-colors hover:bg-accent" aria-label="Switch household">
+                <button type="button" className="flex items-center gap-2 min-w-0 rounded-lg px-2 py-1 -ml-2 transition-colors hover:bg-accent" aria-label="Switch household">
                   <h1 className="truncate text-lg font-bold text-foreground">
                     {householdName}
                   </h1>
@@ -109,8 +115,11 @@ export function Header({
 
         {/* Right: date, avatars, notification bell */}
         <div className="flex items-center gap-4 shrink-0">
-          {/* Date (hidden on mobile) */}
-          <span className="hidden md:block text-sm text-muted-foreground whitespace-nowrap">
+          {/* Date (hidden on mobile, client-only to avoid hydration mismatch) */}
+          <span
+            className="hidden md:block text-sm text-muted-foreground whitespace-nowrap"
+            suppressHydrationWarning
+          >
             {today}
           </span>
 

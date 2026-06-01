@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Home,
@@ -118,7 +119,13 @@ export function Sidebar({
               transition={{ duration: 0.15 }}
               className="flex items-center justify-center"
             >
-              <span className="text-lg font-bold text-primary">M</span>
+              <Image
+                src="/logo-icon.png"
+                alt="ManyHandz"
+                width={32}
+                height={32}
+                className="size-8 rounded-lg object-contain"
+              />
             </motion.div>
           )}
         </AnimatePresence>

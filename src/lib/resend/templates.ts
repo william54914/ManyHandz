@@ -5,10 +5,12 @@
 // mirrors the app's dark theme so that transactional emails feel cohesive.
 // ---------------------------------------------------------------------------
 
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://manyhandz.com";
+
 const BRAND = {
   name: "ManyHandz",
   tagline: "Many hands make light work",
-  logoUrl: "https://manyhandz.com/logo.png",
+  logoUrl: `${APP_URL}/logo-dark.png`,
   primaryColor: "#6366f1",
   primaryHover: "#818cf8",
   bgPrimary: "#0a0e1a",
@@ -46,10 +48,8 @@ export function baseTemplate(content: string, subject: string): string {
           <!-- Header -->
           <tr>
             <td style="padding:32px 32px 16px;text-align:center;border-bottom:1px solid ${BRAND.borderColor};">
-              <h1 style="margin:0;font-size:22px;font-weight:700;color:${BRAND.primaryColor};letter-spacing:-0.02em;">
-                ${BRAND.name}
-              </h1>
-              <p style="margin:4px 0 0;font-size:12px;color:${BRAND.textMuted};">${BRAND.tagline}</p>
+              <img src="${BRAND.logoUrl}" alt="${BRAND.name}" width="180" style="height:auto;max-width:180px;display:inline-block;" />
+              <p style="margin:8px 0 0;font-size:12px;color:${BRAND.textMuted};">${BRAND.tagline}</p>
             </td>
           </tr>
           <!-- Body -->
@@ -63,9 +63,9 @@ export function baseTemplate(content: string, subject: string): string {
             <td style="padding:24px 32px;border-top:1px solid ${BRAND.borderColor};text-align:center;">
               <p style="margin:0;font-size:12px;color:${BRAND.textMuted};line-height:1.6;">
                 &copy; ${new Date().getFullYear()} ${BRAND.name}. All rights reserved.<br />
-                <a href="https://manyhandz.com/unsubscribe" style="color:${BRAND.textMuted};text-decoration:underline;">Unsubscribe</a>
+                <a href="${APP_URL}/settings" style="color:${BRAND.textMuted};text-decoration:underline;">Manage emails</a>
                 &nbsp;&middot;&nbsp;
-                <a href="https://manyhandz.com/privacy" style="color:${BRAND.textMuted};text-decoration:underline;">Privacy</a>
+                <a href="${APP_URL}/privacy" style="color:${BRAND.textMuted};text-decoration:underline;">Privacy</a>
               </p>
             </td>
           </tr>
@@ -137,7 +137,7 @@ export function welcomeEmail(name: string): string {
         </td>
       </tr>
     </table>
-    ${ctaButton("Go to your Dashboard", "https://manyhandz.com/dashboard")}
+    ${ctaButton("Go to your Dashboard", `${APP_URL}/dashboard`)}
   `;
   return baseTemplate(content, `Welcome to ${BRAND.name}!`);
 }
@@ -169,7 +169,7 @@ export function weeklyDigestEmail(data: {
       </tr>
     </table>
     ${paragraph("Keep up the great work! Every completed chore brings your household closer to a balanced, happy home.")}
-    ${ctaButton("View Full Report", "https://manyhandz.com/dashboard/analytics")}
+    ${ctaButton("View Full Report", `${APP_URL}/reports`)}
   `;
   return baseTemplate(content, "Your Weekly Household Recap");
 }
@@ -295,7 +295,7 @@ export function goalCompletedEmail(data: {
       </tr>
     </table>
     ${paragraph("Amazing work! You've shown dedication and consistency. Keep up the momentum and tackle your next challenge.")}
-    ${ctaButton("View Your Goals", "https://manyhandz.com/dashboard/goals")}
+    ${ctaButton("View Your Goals", `${APP_URL}/goals`)}
   `;
   return baseTemplate(content, `Goal achieved: ${data.goalTitle}`);
 }

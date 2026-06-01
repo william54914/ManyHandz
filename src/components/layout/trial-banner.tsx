@@ -44,6 +44,7 @@ export function TrialBanner({ daysRemaining, onDismiss }: TrialBannerProps) {
       </Button>
 
       <button
+        type="button"
         onClick={onDismiss}
         className={cn(
           "absolute right-3 top-1/2 -translate-y-1/2 rounded-sm p-0.5 transition-opacity hover:opacity-80",

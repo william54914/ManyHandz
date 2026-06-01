@@ -442,7 +442,12 @@ export default function MemberProfilePage() {
             )}
             <span className="flex items-center gap-1">
               <Calendar className="size-3.5" />
-              Joined {formatShortDate(member.joined_at)}
+              Joined{" "}
+              {new Date(member.joined_at).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })}
             </span>
           </div>
 

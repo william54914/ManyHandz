@@ -14,7 +14,9 @@ export function useSubscription() {
       if (!householdId) return null;
       const { data } = await supabase
         .from("subscriptions")
-        .select("id, status, trial_end, current_period_end, stripe_subscription_id, price_id, cancel_at_period_end")
+        .select(
+          "id, status, trial_end, current_period_end, stripe_subscription_id, price_id, cancel_at_period_end"
+        )
         .eq("household_id", householdId)
         .single();
       return data;
@@ -22,12 +24,47 @@ export function useSubscription() {
     enabled: !!householdId,
   });
 
-  const isActive = subscription?.status === "active" || subscription?.status === "trialing";
-  const isTrialing = subscription?.status === "trialing";
-  const trialEndsAt = subscription?.trial_end ? new Date(subscription.trial_end) : null;
-  const daysRemaining = trialEndsAt
-    ? Math.max(0, Math.ceil((trialEndsAt.getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
+  const trialEndsAt = subscription?.trial_end
+    ? new Date(subscription.trial_end)
     : null;
+  const trialEndMs = trialEndsAt?.getTime() ?? null;
+  const nowMs = Date.now();
 
-  return { subscription, isActive, isTrialing, trialEndsAt, daysRemaining, isLoading };
+  // Whole-day count remaining (0 means trial ends today or already ended).
+  const daysRemaining =
+    trialEndMs !== null
+      ? Math.max(
+          0,
+          Math.ceil((trialEndMs - nowMs) / (1000 * 60 * 60 * 24))
+        )
+      : null;
+
+  // A trial is "currently active" only if (a) the subscription status is
+  // `trialing` AND (b) the trial_end date is in the future.
+  // This prevents the banner-vs-billing disagreement that happened when the
+  // DB row said "trialing" but the trial_end had already passed (waiting on
+  // the Stripe webhook to flip status).
+  const trialEndPassed = trialEndMs !== null && trialEndMs <= nowMs;
+  const isTrialingRaw = subscription?.status === "trialing";
+  const isTrialing = isTrialingRaw && !trialEndPassed;
+  const isTrialExpired = isTrialingRaw && trialEndPassed;
+
+  // `isActive` is the gate every gated UI should check. It is true while:
+  //   - status === 'active'  (paid)
+  //   - status === 'trialing' AND trial_end is still in the future
+  // It is false once the trial passes its end date, even if the row hasn't
+  // yet been updated by Stripe.
+  const isActive =
+    subscription?.status === "active" ||
+    (isTrialingRaw && !trialEndPassed);
+
+  return {
+    subscription,
+    isActive,
+    isTrialing,
+    isTrialExpired,
+    trialEndsAt,
+    daysRemaining,
+    isLoading,
+  };
 }

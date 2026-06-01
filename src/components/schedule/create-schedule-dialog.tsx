@@ -350,6 +350,7 @@ export function CreateScheduleDialog({
                   <div className="space-y-1">
                     {catChores.map((chore: any) => (
                       <button
+                        type="button"
                         key={chore.id}
                         onClick={() => handleChoreSelect(chore.id)}
                         className={cn(
@@ -423,6 +424,7 @@ export function CreateScheduleDialog({
             <div className="grid gap-3">
               {/* One-off card */}
               <button
+                type="button"
                 onClick={() => handleTypeSelect("one-off")}
                 className={cn(
                   "flex items-start gap-4 rounded-xl border-2 p-4 text-left transition-all",
@@ -443,6 +445,7 @@ export function CreateScheduleDialog({
 
               {/* Recurring card */}
               <button
+                type="button"
                 onClick={() => handleTypeSelect("recurring")}
                 className={cn(
                   "flex items-start gap-4 rounded-xl border-2 p-4 text-left transition-all",
@@ -489,6 +492,7 @@ export function CreateScheduleDialog({
               <div className="grid grid-cols-2 gap-2">
                 {members.map((m) => (
                   <button
+                    type="button"
                     key={m.id}
                     onClick={() => setAssignMemberId(m.id)}
                     className={cn(
@@ -585,6 +589,7 @@ export function CreateScheduleDialog({
                   ] as Frequency[]
                 ).map((f) => (
                   <button
+                    type="button"
                     key={f}
                     onClick={() => setFrequency(f)}
                     className={cn(
@@ -605,6 +610,7 @@ export function CreateScheduleDialog({
               <Label>Assignment type</Label>
               <div className="grid grid-cols-2 gap-2">
                 <button
+                  type="button"
                   onClick={() => setRotationType("round_robin")}
                   className={cn(
                     "flex items-center gap-2.5 rounded-lg border-2 p-3 text-left transition-all",
@@ -622,6 +628,7 @@ export function CreateScheduleDialog({
                   </div>
                 </button>
                 <button
+                  type="button"
                   onClick={() => setRotationType("fixed")}
                   className={cn(
                     "flex items-center gap-2.5 rounded-lg border-2 p-3 text-left transition-all",
@@ -656,6 +663,7 @@ export function CreateScheduleDialog({
                   const orderIndex = selectedMembers.indexOf(m.id);
                   return (
                     <button
+                      type="button"
                       key={m.id}
                       onClick={() => {
                         if (rotationType === "fixed") {

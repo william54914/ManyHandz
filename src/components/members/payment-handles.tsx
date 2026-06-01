@@ -76,7 +76,7 @@ export function PaymentHandles({ member, amount, note, className }: PaymentHandl
                 <div>
                   <p className="text-sm font-medium text-[var(--text-primary)]">{platform.name}</p>
                   <p className="text-xs text-[var(--text-muted)]">
-                    {isAppleCash ? handle : `@${handle}`}
+                    {isAppleCash ? handle : `@${handle.replace(/^@+/, "")}`}
                   </p>
                 </div>
               </div>

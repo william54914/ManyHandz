@@ -10,6 +10,7 @@ import { Header } from "./header";
 import { Sidebar } from "./sidebar";
 import { BottomNav } from "./bottom-nav";
 import { TrialBanner } from "./trial-banner";
+import { VerifyEmailBanner } from "./verify-email-banner";
 import { cn } from "@/lib/utils/cn";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
@@ -37,6 +38,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="relative min-h-screen bg-background">
+      {/* Email verification banner — shown until the user confirms their email */}
+      <VerifyEmailBanner />
+
       {/* Trial Banner */}
       {showTrialBanner && (
         <TrialBanner

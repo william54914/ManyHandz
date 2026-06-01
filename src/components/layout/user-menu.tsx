@@ -53,6 +53,7 @@ export function UserMenu({ currentMember, members, role }: UserMenuProps) {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <button
+          type="button"
           className="relative rounded-full ring-2 ring-[var(--accent-primary)]/50 ring-offset-2 ring-offset-[var(--bg-primary)] transition-all hover:ring-[var(--accent-primary)] focus-visible:outline-none focus-visible:ring-[var(--accent-primary)]"
           aria-label="User menu"
         >
@@ -104,6 +105,7 @@ export function UserMenu({ currentMember, members, role }: UserMenuProps) {
 
         {/* Edit Profile */}
         <button
+          type="button"
           className="flex w-full items-center gap-3 px-4 py-2.5 text-sm text-[var(--text-primary)] transition-colors hover:bg-[var(--bg-hover)]"
           onClick={() => {
             setOpen(false);
@@ -127,6 +129,7 @@ export function UserMenu({ currentMember, members, role }: UserMenuProps) {
             <div className="max-h-40 overflow-y-auto pb-1">
               {otherMembers.slice(0, 8).map((m) => (
                 <button
+                  type="button"
                   key={m.id}
                   className="flex w-full items-center gap-3 px-4 py-2 text-sm text-[var(--text-primary)] transition-colors hover:bg-[var(--bg-hover)]"
                   onClick={() => {

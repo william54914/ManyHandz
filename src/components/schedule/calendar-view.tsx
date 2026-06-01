@@ -99,6 +99,7 @@ export function CalendarView({
 
           return (
             <button
+              type="button"
               key={dateKey}
               onClick={() => onDayClick(day)}
               className={cn(

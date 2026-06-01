@@ -102,6 +102,7 @@ export function DayColumn({
         )}
         {assignments.map((assignment) => (
           <button
+            type="button"
             key={assignment.id}
             onClick={() => onAssignmentClick(assignment.id)}
             className={cn(

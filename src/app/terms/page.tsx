@@ -207,10 +207,10 @@ export default function TermsPage() {
               If you have any questions about these Terms, please contact us
               at{" "}
               <a
-                href="mailto:legal@manyhandz.app"
+                href={`mailto:${process.env.NEXT_PUBLIC_LEGAL_EMAIL || "legal@manyhandz.com"}`}
                 className="text-primary underline underline-offset-4 hover:text-primary/80"
               >
-                legal@manyhandz.app
+                {process.env.NEXT_PUBLIC_LEGAL_EMAIL || "legal@manyhandz.com"}
               </a>
               . We will make every effort to respond to your inquiry within a
               reasonable timeframe.

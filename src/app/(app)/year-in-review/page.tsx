@@ -658,6 +658,7 @@ export default function YearInReviewPage() {
       <div className="flex justify-center gap-1.5 px-4">
         {SLIDES.map((s, i) => (
           <button
+            type="button"
             key={s.id}
             onClick={() => goTo(i)}
             className={cn(

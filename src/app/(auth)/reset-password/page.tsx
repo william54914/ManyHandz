@@ -20,6 +20,22 @@ import {
 } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Loader2, ArrowLeft, CheckCircle2 } from "lucide-react";
+import Image from "next/image";
+
+function LogoHeader() {
+  return (
+    <div className="mb-8">
+      <Image
+        src="/logo-dark.png"
+        alt="ManyHandz"
+        width={280}
+        height={87}
+        className="h-16 w-auto"
+        priority
+      />
+    </div>
+  );
+}
 
 const resetPasswordSchema = z
   .object({
@@ -121,7 +137,8 @@ export default function ResetPasswordPage() {
 
   if (isSuccess) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[var(--bg-primary)] p-4">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg-primary)] p-4">
+        <LogoHeader />
         <Card className="w-full max-w-md border-[var(--border-default)] bg-[var(--bg-secondary)]">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-[var(--accent-success)]/10">
@@ -152,7 +169,8 @@ export default function ResetPasswordPage() {
 
   if (isCheckingSession && !hasSession) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[var(--bg-primary)] p-4">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg-primary)] p-4">
+        <LogoHeader />
         <Card className="w-full max-w-md border-[var(--border-default)] bg-[var(--bg-secondary)]">
           <CardContent className="flex flex-col items-center justify-center py-12">
             <Loader2 className="size-8 animate-spin text-[var(--accent-primary)]" />
@@ -167,7 +185,8 @@ export default function ResetPasswordPage() {
 
   if (!hasSession && !isCheckingSession) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[var(--bg-primary)] p-4">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg-primary)] p-4">
+        <LogoHeader />
         <Card className="w-full max-w-md border-[var(--border-default)] bg-[var(--bg-secondary)]">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-bold text-[var(--text-primary)]">
@@ -192,7 +211,8 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[var(--bg-primary)] p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-[var(--bg-primary)] p-4">
+      <LogoHeader />
       <Card className="w-full max-w-md border-[var(--border-default)] bg-[var(--bg-secondary)]">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold text-[var(--text-primary)]">
